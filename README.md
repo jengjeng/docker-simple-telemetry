@@ -1,10 +1,22 @@
 Installiation
 ===
 
+Install images
+---
+
 ```bash
-docker run -d --rm --name grafana -p 3000:3000 -p 8083:8083 -p 8086:8086 grafana/grafana
-docker run -d --rm --name influxdb --net=container:grafana -v $PWD:/var/lib/influxdb influxdb
-docker run -d --rm --net=container:grafana --name telegraf telegraf
+docker pull grafana/grafana
+docker pull influxdb
+docker pull telegraf
+```
+
+Run containers
+---
+
+```bash
+docker run -d --rm -p 3000:3000 -p 8083:8083 -p 8086:8086 -v $PWD/influxdb:/var/lib/influxdb --name influxdb influxdb
+docker run -d --rm --net=container:influxdb -v $PWD/grafana:/var/lib/grafana --name grafana grafana/grafana
+docker run -d --rm --net=container:influxdb --name telegraf telegraf
 ```
 
 [OPTIONAL] Create user for influxdb
